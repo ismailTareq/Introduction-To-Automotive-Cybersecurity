@@ -1,0 +1,13 @@
+Generating 2048-bits Private RSA Keys
+	- openssl genrsa -out IsmailPrivKey.pem 2048
+	- openssl genrsa -out AdamPrivKey.pem 2048
+Extract the public keys
+	- openssl rsa -in IsmailPrivKey.pem -pubout > IsmailPublicKey.pem
+	- openssl rsa -in AdamPrivKey.pem -pubout > AdamPublicKey.pem
+
+Generate Digital Signatures 
+	- openssl dgst -sha256 -sign .\Ismail\IsmailPrivKey.pem -out Ismail_Signature.rsa .\Ismail\message.txt
+
+Verify Digital Signatures 
+	- openssl dgst -sha256 -verify IsmailPublicKey.pem -signature Ismail_Signature.rsa .\Ismail\message.txt
+

@@ -1,0 +1,17 @@
+//using diff algorthims
+openssl dgst -md5  Input.txt
+openssl dgst -md5  Input_Modified.txt
+
+openssl dgst -sha1  Input.txt
+openssl dgst -sha1  Input_Modified.txt
+
+openssl dgst -sha256  Input.txt
+openssl dgst -sha256  Input_Modified.txt
+openssl dgst -sha512  Input.txt
+openssl dgst -sha512  Input_Modified.txt
+
+openssl dgst -sha224  Input.txt
+openssl dgst -sha224  Input_Modified.txt
+openssl dgst -sha384  Input.txt
+openssl dgst -sha384  Input_Modified.txt
+

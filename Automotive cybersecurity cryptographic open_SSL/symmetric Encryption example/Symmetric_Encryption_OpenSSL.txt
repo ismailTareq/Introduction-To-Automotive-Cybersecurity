@@ -1,0 +1,8 @@
+
+type Input.txt
+Encrypt_sym.bat 123456 Input.txt InputEnc.txt
+Decrypt_sym.bat 123456 InputEnc.txt InputDec.txt
+------------------------
+Decrypt_sym.bat 123457 InputEnc.txt InputDec.txt
+------------------------
+openssl enc -ciphers

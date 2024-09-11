@@ -1,0 +1,10 @@
+
+openssl dgst -sha256  Input.txt > InputDigest.txt
+openssl dgst -sha256 -hmac 123456 Input.txt > HMAC.txt
+
+openssl dgst -sha512  Input.txt > OutputSHA512.txt
+openssl dgst -sha512 -hmac 123456 Input.txt > OutputHMAC_SHA512.txt
+
+If you want to specify the key as hexadecimals you could use a line like this:
+	- openssl dgst -sha384 -mac hmac -macopt hexkey:01020304 Input.txt > OutputHMAC_SHA384.txt
+	

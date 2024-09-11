@@ -1,0 +1,66 @@
+- Creating a CA Certificate
+	- Generate Root Certificate and Key => Generate RSA Private Key file
+		* Generating a Private Key file generates both the Public and Private Keys
+		* Once the Public and Private keys have been generated, you will use them to create your Root CA’s Self-Signed certificate.
+	
+	- Generate a 2048 Bit RSA Private Key for your Certificate Authority
+	> openssl genrsa -out CA_PrivateKey.pem 2048
+
+        - Generate the corresponding public key
+	> openssl rsa -in CA_PrivateKey.pem -pubout > CA_PublicKey.pem 
+	
+	- Asymmetric Key Decoding
+	> openssl rsa -in CA_PrivateKey.pem -text > CA_PrivateKey.txt
+	> openssl rsa -pubin -text -in CA_PublicKey.pem > CA_PublicKey.txt
+	
+	- Generate your Root CA’s Self-Signed Certificate
+	> openssl req -new -x509 -days 365 -sha256 -key CA_PrivateKey.pem -out CA_Certificate.cert
+	
+	- Change the certificate format to DER format
+	> openssl x509 -outform der -in CA_Certificate.cert -out CA_Certificate.der
+====================================================================
+- Creating a the private key for <Adam>, generate CSR and request a certificate for <Ali> from CA
+	- Generate a 2048 Bit RSA Private Key for <Adam>
+	> openssl genrsa -out Adam_PrivateKey.pem 2048
+	
+	- Generate the corresponding public key
+	> openssl rsa -in Adam_PrivateKey.pem -pubout > Adam_PublicKey.pem
+
+	- Asymmetric Key Decoding
+	> openssl rsa -in Adam_PrivateKey.pem -text > Adam_PrivateKey.txt
+	> openssl rsa -pubin -text -in Adam_PublicKey.pem> Adam_PublicKey.txt
+
+	- Generate a CSR that include Adam's public key
+	> openssl req -new -sha256 -key Adam_PrivateKey.pem -out Adam_CSR_Certificate.cert
+
+	- Generate the signaed certificate for Ali
+	> openssl x509 -days 365 -req -in Adam_CSR_Certificate.cert -CA CA_Certificate.cert -CAkey CA_PrivateKey.pem -CAcreateserial -out Adam_Certificate.cert 
+
+====================================================================
+- If you need to check the information within a Certificate, CSR or Private Key, use these commands.
+	- Validating Ali's certificate against CA certificate
+	> openssl verify -trusted CA_Certificate.cert Adam_Certificate.cert
+	- Negative Test
+	> openssl verify -trusted CA_Certificate.cert Adam_CertificateW.cert
+
+	- Check a Certificate Signing Request (CSR)
+	> openssl req -text -noout -verify -in Adam_CSR_Certificate.cert
+
+	- Check a private key
+	> openssl rsa -in Adam_PrivateKey.pem -check
+	
+	> openssl x509 -hash -issuer_hash -noout -in CA_Certificate.cert
+	> openssl x509 -hash -issuer_hash -noout -in Adam_Certificate.cert
+	
+	- To get the key usage of a certificate
+	> openssl x509 -noout -ext keyUsage < Adam_Certificate.cert
+	- To get the extended key usage of a certificate
+	> openssl x509 -noout -ext extendedKeyUsage < Adam_Certificate.cert
+
+	
+
+
+
+
+
+

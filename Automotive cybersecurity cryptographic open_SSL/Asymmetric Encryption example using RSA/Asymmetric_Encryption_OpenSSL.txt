@@ -1,0 +1,33 @@
+Generating 2048-bits Private RSA Keys
+	- openssl genrsa -out IsmailPrivKey.pem 2048
+	- openssl genrsa -out AdamPrivKey.pem 2048
+Extract the public keys
+	- openssl rsa -in IsmailPrivKey.pem -pubout > IsmailPublicKey.pem
+	- openssl rsa -in AdamPrivKey.pem -pubout > AdamPublicKey.pem
+
+Asymmetric Key Decoding
+	- openssl rsa -in IsmailPrivKey.pem -text > IsmailPrivKey.txt
+	- openssl rsa -pubin -text -in IsmailPublicKey.pem > IsmailPublicKey.txt
+	- openssl rsa -text -in IsmailPublicKey.pem -noout > IsmailPrivKey.txt
+	- openssl rsa -pubin -text -in IsmailPublicKey.pem -noout > IsmailPublicKey.txt
+
+Ahmed needs to send a message to Ali
+	- Encryt_Asym.bat AdamPublicKey.pem .\Ismail\message.txt messageEnc.txt
+	- Decryt_Asym.bat .\Adam\AdamPrivKey.pem messageEnc.txt messageDec.txt
+
+Ali needs to send a message to Ahmed
+	- Encryt_Asym.bat IsmailPublicKey.pem .\Adam\message.txt messageEnc.txt
+	- Decryt_Asym.bat .\Ismail\IsmailPrivKey.pem messageEnc.txt messageDec.txt
+---------------------------------------------
+Generating 4096-bits RSA Private Keys encrypted with AES128
+	- openssl genrsa -out IsmailPrivKeyENC.pem -aes128 4096
+		- type IsmailPrivKeyENC.pem 
+		- openssl rsa -in IsmailPrivKeyENC.pem -pubout > IsmailPublicKeyENC.pem 
+		- openssl rsa -text -in IsmailPrivKeyENC.pem -noout > IsmailPrivKeyENC.txt
+		- openssl rsa -pubin -text -in IsmailPublicKeyENC.pem > IsmailPublicKeyENC.txt
+		- Encryt_Asym.bat IsmailPublicKeyENC.pem .\Ismail\message.txt messageEnc.txt
+		- Decryt_Asym.bat .\Ismail\IsmailPrivKeyENC.pem messageEnc.txt messageDec.txt
+	- openssl genrsa -out AdamPrivKeyEnc.pem -aes128 4096
+	---> Other encryption algorithms are also supported : -aes128, -aes192, -aes256, -des3, -des
+========================================================================
+
